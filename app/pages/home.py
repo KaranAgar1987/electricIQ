@@ -10,6 +10,7 @@ class Home:
 
     def __init__(self, driver):
         self.driver = driver
+        self._pageHeader_label_xpath = '//*[@id="app"]/h1'
         self._filterData_txtBox_id = "filter-input"
         self._sort_dd_id = "sort-select"
         self._data_tbl_class = "table"
@@ -54,4 +55,4 @@ class Home:
 
     def get_page_header(self):
         if self.driver.find_element_by_id('app'):
-            return self.driver.find_elements(By.XPATH, '//*[@id="app"]/h1')[0].text
+            return self.driver.find_elements(By.XPATH, self._pageHeader_label_xpath)[0].text

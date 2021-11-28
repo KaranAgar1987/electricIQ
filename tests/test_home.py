@@ -1,18 +1,21 @@
 import unittest
 from selenium.common.exceptions import *
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from app.pages.home import *
 from pandas._testing import *
 from parameterized import parameterized
+from util import *
 
+
+@select_env(driver=Driver.CROME,headless=False)
 class TestHome(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
         """ setup any state specific to the execution of the given class
         """
-        cls.driver = webdriver.Chrome(executable_path="../drivers/chromedriver.exe")
         cls.page = Home(cls.driver)
         cls.driver.get("https://mystifying-beaver-ee03b5.netlify.app/")
         cls.driver.maximize_window()
