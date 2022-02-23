@@ -1,0 +1,10 @@
+{
+    "win64_geckodriver_v0.30.0_for_": {
+        "timestamp": "16/02/2022",
+        "binary_path": "C:\\Users\\karan.agarwal\\PycharmProjects\\electricIQ\\drivers\\drivers\\geckodriver\\win64\\v0.30.0\\geckodriver.exe"
+    },
+    "win32_chromedriver_98.0.4758.102_for_": {
+        "timestamp": "23/02/2022",
+        "binary_path": "C:\\Users\\karan.agarwal\\PycharmProjects\\electricIQ\\drivers\\drivers\\chromedriver\\win32\\98.0.4758.102\\chromedriver.exe"
+    }
+}
