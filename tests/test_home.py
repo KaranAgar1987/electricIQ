@@ -3,27 +3,19 @@ from selenium.common.exceptions import *
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
-from app.pages.home import *
+
+import tests.test_basetest
+from src.decorators.framework_decorators import select_env
+from src.enum.enum_driver import Driver
+from src.pages.home import *
 from pandas._testing import *
 from parameterized import parameterized
-from util import *
+
+from src.pages.home import Home
 
 
-@select_env(driver=Driver.CROME,headless=False)
-class TestHome(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls) -> None:
-        """ setup any state specific to the execution of the given class
-        """
-        cls.page = Home(cls.driver)
-        cls.driver.get("https://mystifying-beaver-ee03b5.netlify.app/")
-        cls.driver.maximize_window()
-        cls.page.load_full_page()
-
-    def setUp(self) -> None:
-        self.driver.get("https://mystifying-beaver-ee03b5.netlify.app/")
-        self.page.load_full_page()
+@select_env(driver=Driver.CROME, headless=False)
+class TestHome(tests.test_basetest.BaseTest):
 
     # Tests to check if page is loaded correctly
     def test_page_load(self):
@@ -37,8 +29,8 @@ class TestHome(unittest.TestCase):
         except NoSuchElementException:
             raise NoSuchElementException
 
-    #Testing filtering with valid string / blank / special characters
-    @parameterized.expand(["S","","%s%"])
+    # Testing filtering with valid string / blank / special characters
+    @parameterized.expand(["S", "", "%s%"])
     def test_filtering_text_string_param(self, text):
         # Get complete data
         data = self.page.get_table_data()
@@ -80,14 +72,14 @@ class TestHome(unittest.TestCase):
         self.page.sort_data_by_text("Name")
         fil_data = self.page.get_table_data()
 
-        #Apply manual sort to dataframe based on name column
+        # Apply manual sort to dataframe based on name column
         fil_data.loc[:, "NAME"] = fil_data["NAME"].map(lambda x: x.lower())
         data.loc[:, "NAME"] = data["NAME"].map(lambda x: x.lower())
         data = data.sort_values("NAME")
         assert_frame_equal(fil_data.reset_index(drop=True), data.reset_index(drop=True))
 
     # testing the sorting function for column - Complexity
-    #Test is marked as failed as the same
+    # Test is marked as failed as the same
     @unittest.expectedFailure
     def test_sort_column2_complexity(self):
         # Get complete data
@@ -125,8 +117,4 @@ class TestHome(unittest.TestCase):
         exp_data = fil_data.sort_values("NAME")
         assert_frame_equal(act_data.reset_index(drop=True), exp_data.reset_index(drop=True))
 
-    @classmethod
-    def tearDownClass(cls) -> None:
-        """ Close driver
-        """
-        cls.driver.quit()
+
